@@ -17,3 +17,11 @@ body {
     background-color: var(--color-bg);
     color: var(--color-fg);
 }
+
+body {
+    display: flex;
+}
+
+svg {
+
+}
