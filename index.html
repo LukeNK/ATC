@@ -16,12 +16,35 @@
     </div>
 </body>
 <script type="module">
-    import Game from './client/game.js';
+    // game code, AVIATION UNITS 1PX = 1FEET, 1tick = 1second
+    class Plane {
+        constructor(x, y, hdg, spd, alt) {
+            this.x = x;
+            this.y = y;
+            this.hdg = hdg; // degree
+            this.spd = spd; // feet per tick
+            this.alt = alt; // feet per tick
+        }
+        tick() {
+            this.x += this.spd * Math.cos(this.hdg);
+            this.y += this.spd * Math.sin(this.hdg);
+        }
+    }
+
+    let callsign = prompt('What is your callsign?')
+        squawk = Math.random().toString() // essentially a password
 
     const socket = new WebSocket(
         'ws://'
         + prompt('Enter your server', window.location.host)
     );
+
+    socket.sendData = (data) => {
+        socket.send(JSON.stringify({
+            callsign,
+            squawk
+        }))
+    }
 
     socket.onopen = () => {
         console.log('WebSocket connection established');

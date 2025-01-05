@@ -9,10 +9,6 @@ const app = express(),
 
 const __dirname = path.resolve();
 
-console.log(__dirname)
-
-import Game from './client/game.js'
-
 // Handle HTTP requests
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));

@@ -31,4 +31,4 @@ A plane will have these properties:
 - Acceleration (feet/tick^2)
 - Climb rate (feet/tick)
 
-Every tick, the server will boardcast a message to inform about the planes and their position.
+Every tick, the server will boardcast a message to inform about the planes and their position. However, the server has no idea about the map (because I am lazy at the server-side SVG thing), so doing hand-off and stuff is up to the pilot and the ATC (excuse: make it more realistic). The "simulation" is also being computed on the client side.
