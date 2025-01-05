@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    --color-dark: #141414;
+    --color-bg: #1c1c1c;
+    --color-fg: #ddeedd;
+    --color-gray: #5e7175;
+    --color-red: #d81860;
+    --color-green: #b7ce42;
+    --color-yellow: #fea63c;
+    --color-blue: #66aabb;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+}

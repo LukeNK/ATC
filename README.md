@@ -12,6 +12,8 @@ Possible control:
 For departures, the ATC need to instruct the plane to reach a waypoint to exit the airspace. For arrivals, the planes will need to intercept the runway's glideslopes.
 
 ## Technical
+Put index.html at root so we can use Github page as a quick way to server static client.
+
 Both roles will essentially share the same client but with a different permission.
 
 There should be a way to convert between feet and pixel; or a pixel is a feet, then scale the canvas appropriately.
