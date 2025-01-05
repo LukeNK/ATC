@@ -19,6 +19,13 @@ app.use('/client', express.static(path.join(__dirname, 'client')));
 // Handle WebSocket connections
 let CLIENTS = [];
 
+function encodeMsg(route, data) {
+    return JSON.stringify({
+        route,
+        data
+    });
+}
+
 function sendExceptCurrent(client, message) {
     for (let i = 0; i < CLIENTS.length; i++) {
         if (CLIENTS[i] === client) continue;
@@ -36,9 +43,12 @@ function sendAll(message) {
 wss.on('connection', (ws) => {
     CLIENTS.push(ws);
 
-    ws.on('message', (message) => {
-        console.log('Received:', message);
-        ws.send(`Server received: ${message}`);
+    ws.on('message', msg => {
+        msg = JSON.parse(msg);
+
+        switch(msg.route) {
+            case 'join':
+        }
     });
 });
 

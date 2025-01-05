@@ -8,57 +8,77 @@
     <link rel="stylesheet" href="./client/style.css">
 </head>
 <body>
-    <svg>
-
-    </svg>
     <div>
+        <input id="hdg" type="number">
+        <input id="spd" type="number">
+        <input id="alt" type="number">
 
+        <pre id="log"></pre>
+        <button>Send</button>
     </div>
 </body>
-<script type="module">
+<script>
+    /** @type {HTMLElement} */
+    let svg;
+
+    // render init code
+    fetch('./client/map.svg')
+    .then(res => res.text())
+    .then(data => {
+        document.body.innerHTML = data + document.body.innerHTML;
+        svg = document.querySelector('svg');
+        svg.setAttribute('width', '');
+        svg.setAttribute('height', '');
+    });
+
     // game code, AVIATION UNITS 1PX = 1FEET, 1tick = 1second
     class Plane {
+        static list = [];
         constructor(x, y, hdg, spd, alt) {
             this.x = x;
             this.y = y;
             this.hdg = hdg; // degree
             this.spd = spd; // feet per tick
             this.alt = alt; // feet per tick
+
+            this.el = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            this.el.setAttribute('width', 10);
+            this.el.setAttribute('height', 10);
+            svg.appendChild(this.el);
         }
         tick() {
             this.x += this.spd * Math.cos(this.hdg);
             this.y += this.spd * Math.sin(this.hdg);
+
+            this.el.setAttribute('x', this.x);
+            this.el.setAttribute('y', this.y);
         }
+
     }
 
-    let callsign = prompt('What is your callsign?')
-        squawk = Math.random().toString() // essentially a password
+    let callsign = prompt('What is your callsign?');
 
     const socket = new WebSocket(
         'ws://'
         + prompt('Enter your server', window.location.host)
     );
 
-    socket.sendData = (data) => {
+    socket.sendData = (route, data) => {
         socket.send(JSON.stringify({
-            callsign,
-            squawk
+            route,
+            callsign
         }))
     }
 
     socket.onopen = () => {
-        console.log('WebSocket connection established');
-
+        socket.sendData('init', {
+            route: 'join',
+            callsign,
+        });
     };
 
     socket.onmessage = (event) => {
         console.log('Message from server:', event.data);
     };
-
-    socket.onclose = () => {
-        console.log('WebSocket connection closed');
-    };
-
-
 </script>
 </html>
